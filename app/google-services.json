@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1008603387359",
+    "project_id": "syncd6969",
+    "storage_bucket": "syncd6969.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1008603387359:android:57498f1ead0774dadae06a",
+        "android_client_info": {
+          "package_name": "com.example.syncd"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiBfGoYUpg53A5Wqex1U-Z_2sniydGuDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

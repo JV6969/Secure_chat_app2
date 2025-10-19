@@ -1,15 +1,27 @@
+# IDE files
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+
+# Build files
+build/
+app/build/
+*/build/
+
+# Local properties
 local.properties
+
+# Keystore files
+*.jks
+*.keystore
+
+# Gradle files
+.gradle/
+gradle/
+gradlew
+gradlew.bat
+
+# Captures
+captures/
+
+# Other
+.DS_Store

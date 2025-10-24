@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -27,6 +28,7 @@ public class login extends AppCompatActivity {
     EditText editText_email, editText_password;
     Button button_login;
     ProgressDialog progressDialog; // Added for better UX
+    TextView textView_sign_up;
 
     String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
@@ -44,6 +46,19 @@ public class login extends AppCompatActivity {
         editText_email = findViewById(R.id.editText_email);
         editText_password = findViewById(R.id.editText_password);
         button_login = findViewById(R.id.button_login); // <<< CRITICAL FIX
+        textView_sign_up = findViewById(R.id.textView_sign_up);
+
+        textView_sign_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in = new Intent(login.this, signup.class);
+                startActivity(in);
+                finish();
+
+            }
+        });
+
+
 
         // Initialize ProgressDialog
         progressDialog = new ProgressDialog(this);

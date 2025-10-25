@@ -63,6 +63,7 @@
         android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/sendtnn"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_35sdp"
             android:layout_marginStart="@dimen/_4sdp"

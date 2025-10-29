@@ -2,7 +2,7 @@ package com.example.syncd;
 
 public class Users {
     String id;
-    String name;
+    String name,password,lastMessage;
     String email;
     String imageuri;
     String status;
@@ -12,10 +12,11 @@ public class Users {
     }
 
     // Your main constructor
-    public Users(String id, String name, String email, String imageuri, String status) {
+    public Users(String id, String name, String email,String password, String imageuri, String status) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.password = password;
         this.imageuri = imageuri;
         this.status = status;
     }
@@ -36,4 +37,23 @@ public class Users {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
+
+
 }

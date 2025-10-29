@@ -13,9 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,14 +36,16 @@ public class settingd extends AppCompatActivity {
     FirebaseDatabase database;
     FirebaseStorage storage;
     Uri setImageUri;
-    String email, password,status;
+    String email,password;
     ProgressDialog progressDialog;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settingd);
+
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -56,29 +55,39 @@ public class settingd extends AppCompatActivity {
         donebut = findViewById(R.id.donebutt);
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Saing..."); // Note: Original typo "Saing..." is kept
+        progressDialog.setMessage("Saing...");
         progressDialog.setCancelable(false);
 
         DatabaseReference reference = database.getReference().child("user").child(auth.getUid());
         StorageReference storageReference = storage.getReference().child("upload").child(auth.getUid());
         reference.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // Original code, potential crash bugs are kept as requested
-                email = snapshot.child("mail").getValue().toString();
-                password = snapshot.child("password").getValue().toString();
-                String name = snapshot.child("userName").getValue().toString();
-                String profile = snapshot.child("profilepic").getValue().toString();
-                String status = snapshot.child("status").getValue().toString();
-                setname.setText(name);
-                setstatus.setText(status);
-                Picasso.get().load(profile).into(setprofile);
+                if (!snapshot.exists()) return;
+
+                email = snapshot.child("mail").getValue(String.class);
+                password = snapshot.child("password").getValue(String.class);
+                String name = snapshot.child("userName").getValue(String.class);
+                String profile = snapshot.child("profilepic").getValue(String.class);
+                String status = snapshot.child("status").getValue(String.class);
+
+                // Avoid nulls by providing fallback values
+                if (name != null) setname.setText(name);
+                if (status != null) setstatus.setText(status);
+
+                if (profile != null && !profile.isEmpty()) {
+                    Picasso.get().load(profile).into(setprofile);
+                } else {
+                    setprofile.setImageResource(R.drawable.photocamera);
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+
         });
         setprofile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +106,7 @@ public class settingd extends AppCompatActivity {
 
                 String name = setname.getText().toString();
                 String Status = setstatus.getText().toString();
-                if (setImageUri != null) {
+                if (setImageUri!=null){
                     storageReference.putFile(setImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -105,17 +114,17 @@ public class settingd extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String finalImageUri = uri.toString();
-                                    Users users = new Users(auth.getUid(),name,email,finalImageUri,status);
+                                    Users users = new Users(auth.getUid(), name,email,password,finalImageUri,Status);
                                     reference.setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
+                                            if (task.isSuccessful()){
                                                 progressDialog.dismiss();
                                                 Toast.makeText(settingd.this, "Data Is save ", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(settingd.this, MainActivity.class);
+                                                Intent intent = new Intent(settingd.this,MainActivity.class);
                                                 startActivity(intent);
                                                 finish();
-                                            } else {
+                                            }else {
                                                 progressDialog.dismiss();
                                                 Toast.makeText(settingd.this, "Some thing went romg", Toast.LENGTH_SHORT).show();
                                             }
@@ -125,23 +134,22 @@ public class settingd extends AppCompatActivity {
                             });
                         }
                     });
-                } else {
-                    // Original code, potential logic bug is kept as requested
+                }else {
                     storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             String finalImageUri = uri.toString();
-                            Users users = new Users(auth.getUid(), name, email, finalImageUri,status);
+                            Users users = new Users(auth.getUid(), name,email,password,finalImageUri,Status);
                             reference.setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
+                                    if (task.isSuccessful()){
                                         progressDialog.dismiss();
                                         Toast.makeText(settingd.this, "Data Is save ", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(settingd.this, MainActivity.class);
+                                        Intent intent = new Intent(settingd.this,MainActivity.class);
                                         startActivity(intent);
                                         finish();
-                                    } else {
+                                    }else {
                                         progressDialog.dismiss();
                                         Toast.makeText(settingd.this, "Some thing went romg", Toast.LENGTH_SHORT).show();
                                     }
@@ -152,20 +160,9 @@ public class settingd extends AppCompatActivity {
                 }
 
             }
-
         });
+    }
 
-        // --- BRACKET FIX: Moved this block from outside the class to inside onCreate ---
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-        // --- END BRACKET FIX ---
-
-    } // <-- This is the closing brace for onCreate
-
-    @Override // <-- Corrected: was 'protected'
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 10) {
@@ -174,7 +171,7 @@ public class settingd extends AppCompatActivity {
                 setprofile.setImageURI(setImageUri);
             }
         }
+
+
     }
-
-} // <-- This is the closing brace for the class
-
+}

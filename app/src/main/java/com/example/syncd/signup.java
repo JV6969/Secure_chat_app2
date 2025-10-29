@@ -154,7 +154,7 @@ public class signup extends AppCompatActivity {
                                                     imageuri = uri.toString();
                                                     // Create user with uploaded image
                                                     // DANGER: Update Users class to NOT store passwords
-                                                    Users users = new Users(id, name2, emaill2, imageuri, status2);
+                                                    Users users = new Users(id, name2, emaill2, pass2,imageuri, status2);
                                                     saveUserToDatabase(reference, users);
                                                 }
                                             });
@@ -162,7 +162,7 @@ public class signup extends AppCompatActivity {
                                             // Image upload failed, use default
                                             Toast.makeText(signup.this, "Image upload failed, using default.", Toast.LENGTH_SHORT).show();
                                             imageuri = defaultImageURL;
-                                            Users users = new Users(id, name2, emaill2, imageuri, status2);
+                                            Users users = new Users(id, name2, emaill2,pass2, imageuri, status2);
                                             saveUserToDatabase(reference, users);
                                         }
                                     }
@@ -171,7 +171,7 @@ public class signup extends AppCompatActivity {
                             // --- CASE 2: User did NOT select an image ---
                             else {
                                 imageuri = defaultImageURL;
-                                Users users = new Users(id, name2, emaill2, imageuri, status2);
+                                Users users = new Users(id, name2, emaill2,pass2, imageuri, status2);
                                 saveUserToDatabase(reference, users);
                             }
 

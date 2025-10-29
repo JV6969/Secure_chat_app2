@@ -1,7 +1,8 @@
 package com.example.syncd;
 
-public class msgModelclass {
-    String message;
+//
+//public class msgModelclass {
+//    String message;
 //    String senderid;
 //    long timeStamp;
 //
@@ -39,44 +40,41 @@ public class msgModelclass {
 //    }
 //}
 
+public class msgModelclass {
+    String message;
+    String senderid;
+    long timeStamp;
 
-package com.av.avmessenger;
+    public msgModelclass() {
+    }
 
-    public class msgModelclass {
-        String message;
-        String senderid;
-        long timeStamp;
+    public msgModelclass(String message, String senderid, long timeStamp) {
+        this.message = message;
+        this.senderid = senderid;
+        this.timeStamp = timeStamp;
+    }
 
-        public msgModelclass() {
-        }
+    public String getMessage() {
+        return message;
+    }
 
-        public msgModelclass(String message, String senderid, long timeStamp) {
-            this.message = message;
-            this.senderid = senderid;
-            this.timeStamp = timeStamp;
-        }
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-        public String getMessage() {
-            return message;
-        }
+    public String getSenderid() {
+        return senderid;
+    }
 
-        public void setMessage(String message) {
-            this.message = message;
-        }
+    public void setSenderid(String senderid) {
+        this.senderid = senderid;
+    }
 
-        public String getSenderid() {
-            return senderid;
-        }
+    public long getTimeStamp() {
+        return timeStamp;
+    }
 
-        public void setSenderid(String senderid) {
-            this.senderid = senderid;
-        }
-
-        public long getTimeStamp() {
-            return timeStamp;
-        }
-
-        public void setTimeStamp(long timeStamp) {
-            this.timeStamp = timeStamp;
-        }
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 }
